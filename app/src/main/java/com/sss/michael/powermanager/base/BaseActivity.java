@@ -1,4 +1,4 @@
-package com.sss.michael.powermanager;
+package com.sss.michael.powermanager.base;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;

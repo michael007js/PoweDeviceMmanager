@@ -1,4 +1,4 @@
-package com.sss.michael.powermanager;
+package com.sss.michael.powermanager.util;
 
 import android.content.Context;
 import android.content.DialogInterface;

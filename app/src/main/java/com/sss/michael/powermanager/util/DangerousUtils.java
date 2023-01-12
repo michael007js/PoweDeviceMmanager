@@ -1,4 +1,4 @@
-package com.sss.michael.powermanager;
+package com.sss.michael.powermanager.util;
 
 import android.app.PendingIntent;
 import android.content.Context;

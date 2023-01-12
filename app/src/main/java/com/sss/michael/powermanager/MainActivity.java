@@ -5,12 +5,11 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,15 +18,20 @@ import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ShellUtils;
 import com.blankj.utilcode.util.Utils;
+import com.sss.michael.powermanager.base.BaseActivity;
 import com.sss.michael.powermanager.callback.OnDialogCallBack;
-import com.sss.michael.process.AndroidProcesses;
-import com.sss.michael.process.model.AndroidAppProcess;
-import com.sss.michael.process.model.Stat;
-import com.sss.michael.process.model.Statm;
+import com.sss.michael.powermanager.receiver.MyAdmin;
+import com.sss.michael.powermanager.util.DialogUtil;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class MainActivity extends BaseActivity {
     /**
@@ -288,13 +292,12 @@ public class MainActivity extends BaseActivity {
      */
 
     public void clearBackground(View view) {
-        getLollipopRecentTask(this);
+        getTopPackageNameFor21(this);
 
-
-        if (true){
-            return;
-        }
-        ShellUtils.execCmdAsync(new String[]{"top"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
+if (true){
+    return;
+}
+        ShellUtils.execCmdAsync(new String[]{ "ps"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
             @Override
             public void accept(ShellUtils.CommandResult commandResult) {
                 LogUtils.e(commandResult.toString());
@@ -303,42 +306,85 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    /**
-     * android 5.0之后如何获取当前运行的应用包名？
-     * 即运行应用的进程名称默认为包名，那么是不是可以通过获取进程信息间接获取到前台运行应用的包名呢？
-     *
-     * @param context
-     * @return
-     */
-    public  void getLollipopRecentTask(Context context) {
-        try {
-            // Get a list of running apps
-            List<AndroidAppProcess> processes = AndroidProcesses.getRunningAppProcesses();
+    public static String getTopPackageNameFor21(Context mContext) {
+        String topPackageName = "";
+        android.app.usage.UsageStatsManager usm = (android.app.usage.UsageStatsManager) mContext.getSystemService("usagestats");
+        Calendar calendar = Calendar.getInstance();
+        long endTime = calendar.getTimeInMillis();
+        long startTime = calendar.getTimeInMillis() - 60*1000;
 
-            for (AndroidAppProcess process : processes) {
-                // Get some information about the process
-                String processName = process.name;
+        //Log.logD(" Range start:" + dateFormat.format(startTime) );
+        //Log.logD(" Range   end:" + dateFormat.format(endTime));
+        android.app.usage.UsageEvents uEvents = usm.queryEvents(startTime,endTime);
+        android.app.usage.UsageEvents.Event e = new android.app.usage.UsageEvents.Event();
+        while (uEvents.hasNextEvent()){
 
-                Stat stat = process.stat();
-                int pid = stat.getPid();
-                int parentProcessId = stat.ppid();
-                long startTime = stat.stime();
-                int policy = stat.policy();
-                char state = stat.state();
-
-                Statm statm = process.statm();
-                long totalSizeOfProcess = statm.getSize();
-                long residentSetSize = statm.getResidentSetSize();
-
-                PackageInfo packageInfo = process.getPackageInfo(context, 0);
-                ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-                String appName =applicationInfo.loadLabel(getPackageManager()).toString();
-                Drawable drawable = applicationInfo.loadIcon(getPackageManager());
-//                LogUtils.e(appName,drawable );
+            if (uEvents.getNextEvent(e)){
+                topPackageName = e.getPackageName();
+                LogUtils.e(  topPackageName);
             }
-        } catch (IOException | PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
         }
+
+        return topPackageName;
     }
 
+
+    private static  String getRunningApk() {
+        long startTime = System.currentTimeMillis();
+        String pgkProcessAppMap = "";
+        Set<String> rProcess = new HashSet<String>();
+        String cmd = "ps";
+        try {
+            java.lang.Process p = Runtime.getRuntime().exec(cmd);
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            int index = 0;
+            while ((line = in.readLine()) != null) {
+                LogUtils.e(line);
+                if (index > 0) {
+                    StringTokenizer st = new StringTokenizer(line);
+                    int lenght = st.countTokens();
+                    if (lenght > 0) {
+                        String uid = st.nextToken();//0 index USER
+                        if (uid.startsWith("u0_") ) {
+                            String processInfo = "";
+                            for (int i = 0; i < (lenght - 1); i++) {
+                                if (!(i == (lenght - 2))) {
+                                    st.nextToken();
+                                } else {
+                                    processInfo = st.nextToken();
+                                }
+                            }
+
+                            if (!TextUtils.isEmpty(processInfo)) {
+                                if (processInfo.contains(":")) {
+                                    String a[] = processInfo.split(":");
+                                    rProcess.add(a[0]);
+                                } else {
+                                    rProcess.add(processInfo);
+                                }
+                            }
+
+                        }
+                    }
+                }
+                index++;
+            }
+        } catch (IOException e) {
+            LogUtils.e("getRunningApk err="+e.toString());
+        }
+        for(String pro : rProcess){
+            pgkProcessAppMap += pro + ",";
+        }
+        if (pgkProcessAppMap.contains(",") && pgkProcessAppMap.length() > 0 ) {
+            pgkProcessAppMap = pgkProcessAppMap.substring(0, pgkProcessAppMap.length()-1);
+        }
+        long endTime = System.currentTimeMillis();
+        LogUtils.e("do_exec pgkProcessAppMap = " + pgkProcessAppMap + "\t time = " + (endTime - startTime));
+        return pgkProcessAppMap;
+    }
+
+    /**
+     * https://blog.csdn.net/guangdeshishe/article/details/116758070
+     */
 }
