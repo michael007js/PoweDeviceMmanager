@@ -1,4 +1,4 @@
-package com.sss.michael.powermanager;
+package com.sss.michael.powermanager.activity;
 
 import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
@@ -6,10 +6,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,6 +16,7 @@ import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ShellUtils;
 import com.blankj.utilcode.util.Utils;
+import com.sss.michael.powermanager.R;
 import com.sss.michael.powermanager.base.BaseActivity;
 import com.sss.michael.powermanager.callback.OnDialogCallBack;
 import com.sss.michael.powermanager.receiver.MyAdmin;
@@ -26,7 +25,6 @@ import com.sss.michael.powermanager.util.DialogUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -47,7 +45,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
         devicePermission = findViewById(R.id.device_permission);
         requestRoot = findViewById(R.id.request_root);
         shutdown = findViewById(R.id.shutdown);
@@ -73,6 +70,16 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         switchUiState();
+    }
+
+    @Override
+    protected int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void init() {
+
     }
 
     private void switchUiState() {

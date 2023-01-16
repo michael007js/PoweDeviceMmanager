@@ -1,0 +1,44 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/ll_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_click_list"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            tools:background="@drawable/bg_power_cold"
+            tools:src="@mipmap/power_recovery" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/textColor_212121_textSize_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Recovery" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                style="@style/textColor_999999_textSize_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="重启到Recovery模式（俗称刷机模式）" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

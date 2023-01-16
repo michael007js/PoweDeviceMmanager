@@ -1,0 +1,83 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_lock_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ll_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.sss.michael.powermanager.view.LayoutPowerRebootBtnView
+                    android:id="@+id/reboot_recovery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.sss.michael.powermanager.view.LayoutPowerRebootBtnView
+                    android:id="@+id/reboot_fastboot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+
+                <com.sss.michael.powermanager.view.LayoutPowerRebootBtnView
+                    android:id="@+id/reboot_hot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+                <com.sss.michael.powermanager.view.LayoutPowerRebootBtnView
+                    android:id="@+id/reboot_cold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+                <com.sss.michael.powermanager.view.LayoutPowerRebootBtnView
+                    android:id="@+id/shutdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+                <ImageView
+                    android:id="@+id/iv_question"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_question"
+                    android:src="@mipmap/icon_question" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <TextView
+            android:id="@+id/tv_lock_screen"
+            style="@style/textColor_212121_textSize_14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/bg_click_list"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="锁屏"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
