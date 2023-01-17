@@ -15,8 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LaunchActivity"
-            android:theme="@style/activityDialog"
-            android:screenOrientation="portrait">
+            android:theme="@style/activityDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +26,10 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.QuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.FunctionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.WifiPasswordPreviewActivity"
             android:screenOrientation="portrait" />
 
 

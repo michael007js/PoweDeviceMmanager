@@ -55,13 +55,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp" />
 
-                <ImageView
-                    android:id="@+id/iv_question"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_question"
-                    android:src="@mipmap/icon_question" />
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:background="#11111111"
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/iv_question"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/icon_question" />
+
+                    <ImageView
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/iv_function"
+                        android:layout_width="30dp"
+                        android:background="#11111111"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/icon_function" />
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

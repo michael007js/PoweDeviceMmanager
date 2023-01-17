@@ -63,10 +63,12 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
                 }
             });
-            if (binding == null) {
-                binding = DataBindingUtil.setContentView(BaseActivity.this, setLayout());
+            if (!isInit) {
+                if (binding == null) {
+                    binding = DataBindingUtil.setContentView(BaseActivity.this, setLayout());
+                }
+                init();
             }
-            init();
         }
         changeUiState();
 

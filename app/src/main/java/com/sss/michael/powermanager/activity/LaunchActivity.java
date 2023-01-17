@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.ShellUtils;
 import com.blankj.utilcode.util.Utils;
 import com.sss.michael.powermanager.R;
 import com.sss.michael.powermanager.base.BaseActivity;
@@ -14,6 +14,7 @@ import com.sss.michael.powermanager.callback.OnDialogCallBack;
 import com.sss.michael.powermanager.constant.AppConstant;
 import com.sss.michael.powermanager.databinding.ActivityLauncherBinding;
 import com.sss.michael.powermanager.util.DialogUtil;
+import com.sss.michael.powermanager.util.ShellUtils;
 import com.sss.michael.powermanager.view.LayoutPowerRebootBtnView;
 
 public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
@@ -27,15 +28,17 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
     protected void init() {
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.width = ScreenUtils.getScreenWidth();
-        layoutParams.height = ScreenUtils.getAppScreenHeight();
+        layoutParams.height = ScreenUtils.getAppScreenHeight()-BarUtils.getNavBarHeight();
         getWindow().setAttributes(layoutParams);
+
+
         binding.rebootCold.setData(AppConstant.REBOOT_COLD, new LayoutPowerRebootBtnView.OnLayoutPowerRebootBtnViewCallBack() {
             @Override
             public void onItemClick(int mode) {
                 DialogUtil.showDialog(getContext(), dialog, "是否要重启设备？", new OnDialogCallBack() {
                     @Override
                     public void onConfirm() {
-                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot"}, false, new Utils.Consumer<ShellUtils.CommandResult>() {
+                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot"}, false,true, new Utils.Consumer<ShellUtils.CommandResult>() {
                             @Override
                             public void accept(ShellUtils.CommandResult commandResult) {
                                 finish();
@@ -55,7 +58,7 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
                 DialogUtil.showDialog(getContext(), dialog, "是否要关机？", new OnDialogCallBack() {
                     @Override
                     public void onConfirm() {
-                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot -p"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
+                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot -p"}, false,true, new Utils.Consumer<ShellUtils.CommandResult>() {
                             @Override
                             public void accept(ShellUtils.CommandResult commandResult) {
                                 finish();
@@ -75,7 +78,7 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
                 DialogUtil.showDialog(getContext(), dialog, "是否要重启android系统？", new OnDialogCallBack() {
                     @Override
                     public void onConfirm() {
-                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "killall system_server"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
+                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "killall system_server"},false, true, new Utils.Consumer<ShellUtils.CommandResult>() {
                             @Override
                             public void accept(ShellUtils.CommandResult commandResult) {
                                 finish();
@@ -95,7 +98,7 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
                 DialogUtil.showDialog(getContext(), dialog, "是否要重启到recovery模式？", new OnDialogCallBack() {
                     @Override
                     public void onConfirm() {
-                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot recovery"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
+                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot recovery"},false, true, new Utils.Consumer<ShellUtils.CommandResult>() {
                             @Override
                             public void accept(ShellUtils.CommandResult commandResult) {
                                 finish();
@@ -115,7 +118,7 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
                 DialogUtil.showDialog(getContext(), dialog, "是否要重启到fastboot模式？", new OnDialogCallBack() {
                     @Override
                     public void onConfirm() {
-                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot bootloader"}, true, new Utils.Consumer<ShellUtils.CommandResult>() {
+                        ShellUtils.execCmdAsync(new String[]{"su", "-c", "reboot bootloader"},false, true, new Utils.Consumer<ShellUtils.CommandResult>() {
                             @Override
                             public void accept(ShellUtils.CommandResult commandResult) {
                                 finish();
@@ -160,6 +163,13 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), QuestionActivity.class).putExtra("action", 1));
+            }
+        });
+
+        binding.ivFunction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), FunctionActivity.class));
             }
         });
 

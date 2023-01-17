@@ -1,0 +1,32 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.sss.michael.powermanager.view.ImageTextView
+                android:id="@+id/itv_click_wifi_password"
+                style="@style/textColor_212121_textSize_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_click_list"
+                android:padding="15dp"
+                android:text="  查看wifi密码"
+                app:drawableHeightLeft_it="15dp"
+                app:drawableLeft_it="@mipmap/icon_wifi"
+                app:drawableWidthLeft_it="15dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

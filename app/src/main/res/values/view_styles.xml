@@ -1,0 +1,18 @@
+<resources>
+    <declare-styleable name="ImageTextView">
+        <attr name="textLeft" format="string" />
+        <attr name="textRight" format="string" />
+        <attr name="drawableLeft_it" format="reference" />
+        <attr name="drawableTop_it" format="reference" />
+        <attr name="drawableRight_it" format="reference" />
+        <attr name="drawableBottom_it" format="reference" />
+        <attr name="drawableWidthLeft_it" format="dimension" />
+        <attr name="drawableWidthTop_it" format="dimension" />
+        <attr name="drawableWidthRight_it" format="dimension" />
+        <attr name="drawableWidthBottom_it" format="dimension" />
+        <attr name="drawableHeightLeft_it" format="dimension" />
+        <attr name="drawableHeightTop_it" format="dimension" />
+        <attr name="drawableHeightRight_it" format="dimension" />
+        <attr name="drawableHeightBottom_it" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,2 +1,3 @@
+include ':utilcode'
 include ':app'
 rootProject.name = "power manager"
