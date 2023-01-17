@@ -138,9 +138,9 @@ public class LaunchActivity extends BaseActivity<ActivityLauncherBinding> {
                 finish();
             }
         });
-        binding.tvLockScreen.setOnClickListener(new OnClickCallBack() {
+        binding.tvLockScreen.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void onViewClick(View v, boolean root) {
+            public void onClick(View v) {
                 if (AppConstant.DPM.isAdminActive(AppConstant.CN)) {
                     AppConstant.DPM.lockNow();// 锁屏
                     finish();

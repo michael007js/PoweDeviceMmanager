@@ -1,6 +1,7 @@
 package com.sss.michael.powermanager.activity;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.view.View;
 
 import com.sss.michael.powermanager.R;
@@ -17,7 +18,14 @@ public class FunctionActivity extends BaseActivity<ActivityFunctionBinding> {
 
     @Override
     protected void init() {
+        binding.itvClickAndroidSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(Settings.ACTION_SETTINGS);
+                startActivity(intent);
 
+            }
+        });
         binding.itvClickWifiPassword.setOnClickListener(new OnClickCallBack() {
             @Override
             protected void onViewClick(View v, boolean root) {
